@@ -1,0 +1,21 @@
+{
+    "name": "stanleysie/hk-site",
+    "description": "The site config setup of sites.",
+    "type": "library",
+    "require": {
+        "php": "^7.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Stanleysie\\HkSite\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Stanley Sie",
+            "email": "swookon@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
