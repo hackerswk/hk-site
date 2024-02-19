@@ -35,7 +35,7 @@ class Site
      * @param bool $is_public
      * @return array
      */
-    public function getSite($site_code, $is_public = true)
+    public function getSite($site_code, $is_public = 1)
     {
         $sql = <<<EOF
             SELECT * FROM sites
