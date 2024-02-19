@@ -39,7 +39,7 @@ class Site
     {
         $sql = <<<EOF
             SELECT * FROM sites
-            WHERE site_code = :site_code AND is_deleted = 0 AND is_public = :is_public
+            WHERE site_code = :site_code AND is_deleted = 0 AND is_public = :is_public AND is_deleted = 0
 EOF;
         $query = $this->database->prepare($sql);
         $query->execute([
