@@ -143,16 +143,16 @@ EOF;
      *
      * @return bool
      */
-    public function setSiteConfig($site_code, $is_public, $path)
+    public function setSiteConfig($site_id, $is_public, $path)
     {
         try {
             $data = array(
-                $site => $this->getSite($site_code, $is_public),
-                $site_member_config => $this->getSiteMemberConfig($site['site_id']),
-                $siet_meta => $this->getSiteMeta($site['site_id']),
+                'site' => $this->getSite($site_id, $is_public),
+                'site_member_config' => $this->getSiteMemberConfig($site['site_id']),
+                'siet_meta' => $this->getSiteMeta($site['site_id']),
             );
             $json_data = json_encode($data);
-            $json_file = $path . '/' . $site_code . '.json';
+            $json_file = $path . '/' . $site['site_code'] . '.json';
             if (file_put_contents($json_file, $json_data)) {
                 return true;
             }
