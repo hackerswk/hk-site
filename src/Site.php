@@ -152,7 +152,7 @@ EOF;
                 'site_meta' => $this->getSiteMeta($site_id),
             );
             $json_data = json_encode($data);
-            $json_file = $path . '/' . $site_id . '.json';
+            $json_file = $path . '/' . $data['site']['site_code'] . '.json';
             if (file_put_contents($json_file, $json_data)) {
                 return true;
             }
