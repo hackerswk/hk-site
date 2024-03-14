@@ -31,19 +31,19 @@ class Site
     /**
      * Get site info of sites.
      *
-     * @param string $site_code
+     * @param string $site_id
      * @param bool $is_public
      * @return array
      */
-    public function getSite($site_code, $is_public = 1)
+    public function getSite($site_id, $is_public = 1)
     {
         $sql = <<<EOF
             SELECT * FROM sites
-            WHERE site_code = :site_code AND is_deleted = 0 AND is_public = :is_public AND is_deleted = 0
+            WHERE id = :site_id AND is_deleted = 0 AND is_public = :is_public
 EOF;
         $query = $this->database->prepare($sql);
         $query->execute([
-            ':site_code' => $site_code,
+            ':site_id' => $site_id,
             ':is_public' => $is_public,
         ]);
 
