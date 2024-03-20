@@ -15,14 +15,14 @@ use \PDO as PDO;
 class Site
 {
     /**
-     * database
-     *
-     * @var object
+     * @var PDO|null The database connection.
      */
     private $database;
 
     /**
-     * initialize
+     * Site constructor.
+     *
+     * @param PDO|null $db The PDO database connection object.
      */
     public function __construct($db = null)
     {
@@ -32,11 +32,11 @@ class Site
     /**
      * Get site info of sites.
      *
-     * @param string $site_id
-     * @param bool $is_public
-     * @return array
+     * @param string $site_id The ID of the site.
+     * @param bool $is_public Flag indicating whether the site is public (default: true).
+     * @return array The site information as an associative array.
      */
-    public function getSite($site_id, $is_public = 1)
+    public function getSite($site_id, $is_public = true)
     {
         $sql = <<<EOF
             SELECT * FROM sites
@@ -52,15 +52,14 @@ EOF;
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result;
         }
-
         return [];
     }
 
     /**
      * Get site member config of site_member_config.
      *
-     * @param string $site_id
-     * @return array
+     * @param string $site_id The ID of the site.
+     * @return array The site member configuration as an associative array.
      */
     public function getSiteMemberConfig($site_id)
     {
@@ -77,15 +76,14 @@ EOF;
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result;
         }
-
         return [];
     }
 
     /**
      * Get site meta of site_meta.
      *
-     * @param string $site_id
-     * @return array
+     * @param string $site_id The ID of the site.
+     * @return array The site meta information as an associative array.
      */
     public function getSiteMeta($site_id)
     {
@@ -102,46 +100,50 @@ EOF;
             $result = $query->fetch(PDO::FETCH_ASSOC);
             return $result;
         }
-
         return [];
     }
 
     /**
      * Confirm if the site config profile exists.
      *
-     * @return bool
+     * @param string $site_code The site code.
+     * @param string $path The path to the directory containing the config files.
+     * @return bool True if the config file exists, false otherwise.
      */
     public function checkSiteConfig($site_code, $path)
     {
-        $json_file = $path . '/' . $site_code . '.json';
-        if (file_exists($json_file)) {
+        $config_file = $path . '/' . $site_code . '.php';
+        if (file_exists($config_file)) {
             return true;
         }
-
         return false;
     }
 
     /**
-     * Cet site config.
+     * Get site config.
      *
-     * @return array
+     * @param string $site_code The site code.
+     * @param string $path The path to the directory containing the config files.
+     * @return array The site configuration as an associative array.
      */
     public function getSiteConfig($site_code, $path)
     {
-        $json_file = $path . '/' . $site_code . '.json';
-        if (file_exists($json_file)) {
-            $json_data = file_get_contents($json_file);
-            $data = json_decode($json_data, true);
-            return $data;
+        $config_file = $path . '/' . $site_code . '.php';
+        if (file_exists($config_file)) {
+            $configHandler = new PhpConfigHandler($config_file);
+            return $configHandler->readConfig();
         }
-
         return [];
     }
 
     /**
-     * Create a json file of the site config.
+     * Create a php file of the site config.
      *
-     * @return bool
+     * @param string $site_id The ID of the site.
+     * @param bool $is_public Flag indicating whether the site is public.
+     * @param string $path The path to the directory to save the config file.
+     * @return bool True if the config file was successfully created, false otherwise.
+     * @throws Exception If an error occurs while creating the config file.
      */
     public function setSiteConfig($site_id, $is_public, $path)
     {
@@ -151,15 +153,15 @@ EOF;
                 'site_member_config' => $this->getSiteMemberConfig($site_id),
                 'site_meta' => $this->getSiteMeta($site_id),
             );
-            $json_data = json_encode($data);
-            $json_file = $path . '/' . $data['site']['site_code'] . '.json';
-            if (file_put_contents($json_file, $json_data)) {
+            
+            $config_file = $path . '/' . $data['site']['site_code'] . '.php';
+            $configHandler = new PhpConfigHandler($config_file);
+            if ($configHandler->generateConfig($data)) {
                 return true;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-
         return false;
     }
 }
