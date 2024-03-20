@@ -190,16 +190,97 @@ EOF;
     public function setSiteThemeConfig($site_id, $topic_id, $is_public, $path)
     {
         try {
+            $site_block_setting = $this->getSiteBlockSettings($site_id);
+            $site_style_setting = $this->getSiteStyleSettings($site_id);
+            $site_tool = $this->getSiteTools($site_id);
+            $topic_block = $this->getTopicBlocks($topic_id);
+            $topic_config = $this->getTopicConfig($topic_id);
+            $topic_page = $this->getTopicPages($topic_id);
+            $topic_style = $this->getTopicStyles($topic_id);
             $site = new Site();
             $site_data = $site->getSite($site_id, $is_public);
             $data = array(
-                'site_block_setting' => $this->getSiteBlockSettings($site_id),
-                'site_style_setting' => $this->getSiteStyleSettings($site_id),
-                'site_tool' => $this->getSiteTools($site_id),
-                'topic_block' => $this->getTopicBlocks($topic_id),
-                'topic_config' => $this->getTopicConfig($topic_id),
-                'topic_page' => $this->getTopicPages($topic_id),
-                'topic_style' => $this->getTopicStyles($topic_id),
+                /*
+                |--------------------------------------------------------------------------
+                | site_block_setting Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'site_id' => $site_block_setting['site_id'], // Site ID
+                'page' => $site_block_setting['page'], // Page
+                'blocks' => $site_block_setting['blocks'], // Blocks
+                'visible' => $site_block_setting['visible'], // Visibility
+                'delete_at' => $site_block_setting['delete_at'], // Deletion time
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_style_setting Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'id' => $site_style_setting['id'], // ID
+                'font' => $site_style_setting['font'], // Font
+                'color' => $site_style_setting['color'], // Color
+                'header' => $site_style_setting['header'], // Header
+                'footer' => $site_style_setting['footer'], // Footer
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_tool Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'id' => $site_tool['id'], // ID
+                'type' => $site_tool['type'], // Tool type
+                'url' => $site_tool['url'], // URL
+
+                /*
+                |--------------------------------------------------------------------------
+                | topic_block Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'page' => $topic_block['page'], // Page
+                'order' => $topic_block['order'], // Order
+                'block_name' => $topic_block['block_name'], // Block Name
+                'visible' => $topic_block['visible'], // Visibility
+
+                /*
+                |--------------------------------------------------------------------------
+                | topic_config Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'topic_name' => $topic_config['topic_name'], // Topic Name
+                'topic_icon' => $topic_config['topic_icon'], // Topic Icon
+                'topic_description' => $topic_config['topic_description'], // Topic Description
+                'topic_type' => $topic_config['topic_type'], // Topic Type (0: free, 1: one-page, 2: multi-page)
+                'site_type' => $topic_config['site_type'], // Site Type (1: brand, 2: shopping, 3: booking, 4: reservation, 5: appointment)
+                'activate' => $topic_config['activate'], // Activation status (0: inactive, 1: active)
+                'default_topic' => $topic_config['default_topic'], // Default topic status (0: not default, 1: default)
+
+                /*
+                |--------------------------------------------------------------------------
+                | topic_page Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'order' => $topic_page['order'], // Order
+                'name' => $topic_page['name'], // Page Name
+                'visible' => $topic_page['visible'], // Visibility
+
+                /*
+                |--------------------------------------------------------------------------
+                | topic_style Table
+                |--------------------------------------------------------------------------
+                |
+                */
+                'style_type' => $topic_style['style_type'], // Style Type (e.g., color, font)
+                'style_order' => $topic_style['style_order'], // Style Order
+                'content' => $topic_style['content'], // Content Description
+                'sample_image' => $topic_style['sample_image'], // Sample Image URL
+                'activate' => $topic_style['activate'], // Activation status (0: inactive, 1: active)
+                'deleted_at' => $topic_style['deleted_at'], // Deletion time 
             );
             
             $config_file = $path . '/' . $site_data['site']['site_code'] . '-theme.php';
