@@ -283,7 +283,7 @@ EOF;
                 'deleted_at' => $topic_style['deleted_at'], // Deletion time 
             );
             
-            $config_file = $path . '/' . $site_data['site']['site_code'] . '-theme.php';
+            $config_file = $path . '/' . $site_data['site_code'] . '-theme.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
                 return true;
