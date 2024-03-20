@@ -173,7 +173,7 @@ EOF;
                 'login_google' => $site_member_config['login_google'], // Allow members to register/login via Google: 1 => Yes; 0 => No
             );
             
-            $config_file = $path . '/' . $data['site']['site_code'] . '.php';
+            $config_file = $path . '/' . $data['site_code'] . '.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
                 return true;
