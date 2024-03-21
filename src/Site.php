@@ -164,7 +164,9 @@ EOF;
                 'verification_code' => $site['verification_code'], // Verification code for site ownership (used for Google search engine registration)
                 'is_public' => $site['is_public'], // Site publishing status: 0 => unpublished; 1 => published
                 /** Below are from the site_meta table **/
+                'title' => $site_meta['title'], // Title
                 'locale' => $site_meta['locale'], // Site language
+                'share_img' => $site_meta['share_img'], // Share image
                 /** Below are from the site_member_config table **/
                 'login_email' => $site_member_config['login_email'], // Allow members to register/login via email: 1 => Yes; 0 => No
                 'login_mobile' => $site_member_config['login_mobile'], // Allow members to register/login via mobile: 1 => Yes; 0 => No
