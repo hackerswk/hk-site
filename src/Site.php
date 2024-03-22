@@ -150,31 +150,31 @@ EOF;
         try {
             $site = $this->getSite($site_id, $is_public);
             $site_member_config = $this->getSiteMemberConfig($site_id);
-            $site_meta = $this->getSiteMeta($site_id); 
+            $site_meta = $this->getSiteMeta($site_id);
             $data = array(
                 /** Below are from the sites table **/
-                'id' => $site['id'], // Site ID
-                'name' => $site['name'], // Unique site name
-                'category_id' => $site['category_id'], // Site category ID
-                'site_code' => $site['site_code'], // Site code
-                'domain' => $site['domain'], // Domain
-                'type' => $site['type'], // Site type: 1 => website; 2 => shopsite
-                'file_path' => $site['file_path'], // Site file path
-                'favicon' => $site['favicon'], // Site favicon
-                'verification_code' => $site['verification_code'], // Verification code for site ownership (used for Google search engine registration)
-                'is_public' => $site['is_public'], // Site publishing status: 0 => unpublished; 1 => published
+                'id' => $site['id'] ?? '', // Site ID
+                'name' => $site['name'] ?? '', // Unique site name
+                'category_id' => $site['category_id'] ?? '', // Site category ID
+                'site_code' => $site['site_code'] ?? '', // Site code
+                'domain' => $site['domain'] ?? '', // Domain
+                'type' => $site['type'] ?? '', // Site type: 1 => website; 2 => shopsite
+                'file_path' => $site['file_path'] ?? '', // Site file path
+                'favicon' => $site['favicon'] ?? '', // Site favicon
+                'verification_code' => $site['verification_code'] ?? '', // Verification code for site ownership (used for Google search engine registration)
+                'is_public' => $site['is_public'] ?? '', // Site publishing status: 0 => unpublished; 1 => published
                 /** Below are from the site_meta table **/
-                'title' => $site_meta['title'], // Title
-                'locale' => $site_meta['locale'], // Site language
-                'share_img' => $site_meta['share_img'], // Share image
+                'title' => $site_meta['title'] ?? '', // Title
+                'locale' => $site_meta['locale'] ?? '', // Site language
+                'share_img' => $site_meta['share_img'] ?? '', // Share image
                 /** Below are from the site_member_config table **/
-                'login_email' => $site_member_config['login_email'], // Allow members to register/login via email: 1 => Yes; 0 => No
-                'login_mobile' => $site_member_config['login_mobile'], // Allow members to register/login via mobile: 1 => Yes; 0 => No
-                'login_fb' => $site_member_config['login_fb'], // Allow members to register/login via Facebook: 1 => Yes; 0 => No
-                'login_line' => $site_member_config['login_line'], // Allow members to register/login via Line: 1 => Yes; 0 => No
-                'login_google' => $site_member_config['login_google'], // Allow members to register/login via Google: 1 => Yes; 0 => No
+                'login_email' => $site_member_config['login_email'] ?? '', // Allow members to register/login via email: 1 => Yes; 0 => No
+                'login_mobile' => $site_member_config['login_mobile'] ?? '', // Allow members to register/login via mobile: 1 => Yes; 0 => No
+                'login_fb' => $site_member_config['login_fb'] ?? '', // Allow members to register/login via Facebook: 1 => Yes; 0 => No
+                'login_line' => $site_member_config['login_line'] ?? '', // Allow members to register/login via Line: 1 => Yes; 0 => No
+                'login_google' => $site_member_config['login_google'] ?? '', // Allow members to register/login via Google: 1 => Yes; 0 => No
             );
-            
+
             $config_file = $path . '/' . $data['site_code'] . '.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {

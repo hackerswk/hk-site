@@ -102,10 +102,10 @@ class SiteFunction
                 |
                 */
                 /**以下來自 sites table**/
-                'set_fbe' => $site_data['set_fbe'], // 是否有設定 FBE, 0 | 1
-                'set_cs_btn' => $site_data['set_cs_btn'], // 是否有設定 客服連結按鈕, 0 | 1
-                'set_g_search' => $site_data['set_g_search'], // 是否有設定 Google 搜尋引擎登錄, 0 | 1
-                'set_tracking_code' => $site_data['set_tracking_code'], // 是否有設定 追蹤碼安裝, 0 | 1
+                'set_fbe' => $site_data['set_fbe'] ?? '',
+                'set_cs_btn' => $site_data['set_cs_btn'] ?? '',
+                'set_g_search' => $site_data['set_g_search'] ?? '',
+                'set_tracking_code' => $site_data['set_tracking_code'] ?? '',
                 /** 持續新增..... **/ 
             );
             
