@@ -104,6 +104,30 @@ EOF;
     }
 
     /**
+     * Get site information by site ID.
+     *
+     * @param int $site_id The ID of the site.
+     * @return array An array containing site information.
+     */
+    public function getSiteInfo($site_id)
+    {
+        $sql = <<<EOF
+            SELECT * FROM site_info
+            WHERE site_id = :site_id
+EOF;
+        $query = $this->database->prepare($sql);
+        $query->execute([
+            ':site_id' => $site_id,
+        ]);
+
+        if ($query->rowCount() > 0) {
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }
+        return [];
+    }
+
+    /**
      * Confirm if the site config profile exists.
      *
      * @param string $site_code The site code.
@@ -151,6 +175,7 @@ EOF;
             $site = $this->getSite($site_id, $is_public);
             $site_member_config = $this->getSiteMemberConfig($site_id);
             $site_meta = $this->getSiteMeta($site_id);
+            $site_info = $this->getSiteInfo($site_id);
             $data = array(
                 /** Below are from the sites table **/
                 'id' => $site['id'] ?? '', // Site ID
@@ -163,6 +188,9 @@ EOF;
                 'favicon' => $site['favicon'] ?? '', // Site favicon
                 'verification_code' => $site['verification_code'] ?? '', // Verification code for site ownership (used for Google search engine registration)
                 'is_public' => $site['is_public'] ?? '', // Site publishing status: 0 => unpublished; 1 => published
+                'site_theme' => '', // 待補充資料
+                /** Below are from the site_info table **/
+                'site_logo' => isset($site_info['logo']) ? 'https://img.holkee.com/site/store/logo/' . $site['name'] . '/' . $site_info['logo'] : '',
                 /** Below are from the site_meta table **/
                 'title' => $site_meta['title'] ?? '', // Title
                 'locale' => $site_meta['locale'] ?? '', // Site language
