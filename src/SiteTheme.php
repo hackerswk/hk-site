@@ -177,6 +177,48 @@ EOF;
     }
 
     /**
+     * Get site information by site ID.
+     *
+     * @param int $siteId The site ID to use as a query condition
+     * @return array|null Site information if found, else null
+     */
+    public function getSiteInfoBySiteId($siteId)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_info WHERE site_id = :site_id
+EOF;
+        return $this->executeQuery($sql, ['site_id' => $siteId]);
+    }
+
+    /**
+     * Get site news by site ID.
+     *
+     * @param int $siteId The site ID to use as a query condition
+     * @return array|null Site news if found, else null
+     */
+    public function getSiteNewsBySiteId($siteId)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_news WHERE site_id = :site_id
+EOF;
+        return $this->executeQuery($sql, ['site_id' => $siteId]);
+    }
+
+    /**
+     * Get site services by site ID.
+     *
+     * @param int $siteId The site ID to use as a query condition
+     * @return array|null Site services if found, else null
+     */
+    public function getSiteServicesBySiteId($siteId)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_service WHERE site_id = :site_id
+EOF;
+        return $this->executeQuery($sql, ['site_id' => $siteId]);
+    }
+
+    /**
      * Set site theme configuration based on site and topic IDs.
      *
      * @param int $site_id The ID of the site.
@@ -198,6 +240,9 @@ EOF;
             $topic_style = $this->getTopicStyles($topic_id);
             $site = new Site();
             $site_data = $site->getSite($site_id, $is_public);
+            $site_info = $this->getSiteInfoBySiteId($site_id);
+            $site_news = $this->getSiteNewsBySiteId($site_id);
+            $site_services = $this->getSiteServicesBySiteId($site_id);
             $data = array(
                 /*
                 |--------------------------------------------------------------------------
@@ -217,7 +262,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'id' => $site_style_setting['id'] ?? '',
+                'site_style_setting_id' => $site_style_setting['id'] ?? '',
                 'font' => $site_style_setting['font'] ?? '',
                 'color' => $site_style_setting['color'] ?? '',
                 'header' => $site_style_setting['header'] ?? '',
@@ -229,7 +274,6 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'id' => $site_tool['id'] ?? '',
                 'type' => $site_tool['type'] ?? '',
                 'url' => $site_tool['url'] ?? '',
 
@@ -280,6 +324,53 @@ EOF;
                 'sample_image' => $topic_style['sample_image'] ?? '',
                 'activate' => $topic_style['activate'] ?? '',
                 'deleted_at' => $topic_style['deleted_at'] ?? '',
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_info Table
+                |--------------------------------------------------------------------------
+                |
+                 */
+                'site_type' => $site_info['site_type'] ?? '',
+                'currency' => $site_info['currency'] ?? '',
+                'logo' => $site_info['logo'] ?? '',
+                'contact_phone' => $site_info['contact_phone'] ?? '',
+                'contact_email' => $site_info['contact_email'] ?? '',
+                'contact_location' => $site_info['contact_location'] ?? '',
+                'google_map_status' => $site_info['google_map_status'] ?? '',
+                'site_introdution_image' => $site_info['site_introdution_image'] ?? '',
+                'site_introduction_text' => $site_info['site_introduction_text'] ?? '',
+                'contact_time' => $site_info['contact_time'] ?? '',
+                'fb_link' => $site_info['fb_link'] ?? '',
+                'line_link' => $site_info['line_link'] ?? '',
+                'instagram_link' => $site_info['instagram_link'] ?? '',
+                'youtube_link' => $site_info['youtube_link'] ?? '',
+                'twitter_link' => $site_info['twitter_link'] ?? '',
+                'tiktok_link' => $site_info['tiktok_link'] ?? '',
+                'deleted_at' => $site_info['deleted_at'] ?? '',
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_service Table
+                |--------------------------------------------------------------------------
+                |
+                 */
+                'service_id' => $site_service['id'] ?? '',
+                'service_site_id' => $site_service['site_id'] ?? '',
+                'service_name' => $site_service['name'] ?? '',
+                'service_image' => $site_service['image'] ?? '',
+                'service_description' => $site_service['descripition'] ?? '',
+                'service_visible' => $site_service['visible'] ?? '',
+                'service_sn' => $site_service['service_sn'] ?? '',
+                'service_deleted_at' => $site_service['deleted_at'] ?? '',
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_news Table
+                |--------------------------------------------------------------------------
+                |
+                 */
+                'site_news' => $site_news ?? [],
             );
 
             $config_file = $path . '/' . $site_data['site_code'] . '-theme.php';
