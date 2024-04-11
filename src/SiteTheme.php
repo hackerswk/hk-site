@@ -130,13 +130,14 @@ EOF;
      * Execute SQL query and fetch results.
      *
      * @param string $sql SQL query
-     *
+     * @param array $params Parameters to bind to the query
      * @return array Array of query results
      */
-    private function executeQuery($sql)
+    private function executeQuery($sql, $params = [])
     {
         try {
-            $stmt = $this->pdo->query($sql);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
