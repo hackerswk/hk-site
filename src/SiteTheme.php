@@ -250,11 +250,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'site_id' => $site_block_setting['site_id'] ?? '',
-                'page' => $site_block_setting['page'] ?? '',
-                'blocks' => $site_block_setting['blocks'] ?? '',
-                'visible' => $site_block_setting['visible'] ?? '',
-                'delete_at' => $site_block_setting['delete_at'] ?? '',
+                'site_block_setting' => $site_block_setting ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
@@ -274,8 +270,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'type' => $site_tool['type'] ?? '',
-                'url' => $site_tool['url'] ?? '',
+                'site_tool' => $site_tool ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
@@ -283,10 +278,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'page' => $topic_block['page'] ?? '',
-                'order' => $topic_block['order'] ?? '',
-                'block_name' => $topic_block['block_name'] ?? '',
-                'visible' => $topic_block['visible'] ?? '',
+                'topic_block' => $topic_block ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
@@ -308,9 +300,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'order' => $topic_page['order'] ?? '',
-                'name' => $topic_page['name'] ?? '',
-                'visible' => $topic_page['visible'] ?? '',
+                'topic_page' => $topic_page ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
@@ -318,12 +308,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'style_type' => $topic_style['style_type'] ?? '',
-                'style_order' => $topic_style['style_order'] ?? '',
-                'content' => $topic_style['content'] ?? '',
-                'sample_image' => $topic_style['sample_image'] ?? '',
-                'activate' => $topic_style['activate'] ?? '',
-                'deleted_at' => $topic_style['deleted_at'] ?? '',
+                'topic_style' => $topic_style ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
@@ -355,14 +340,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'service_id' => $site_service['id'] ?? '',
-                'service_site_id' => $site_service['site_id'] ?? '',
-                'service_name' => $site_service['name'] ?? '',
-                'service_image' => $site_service['image'] ?? '',
-                'service_description' => $site_service['descripition'] ?? '',
-                'service_visible' => $site_service['visible'] ?? '',
-                'service_sn' => $site_service['service_sn'] ?? '',
-                'service_deleted_at' => $site_service['deleted_at'] ?? '',
+                'site_service' => $site_service ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
