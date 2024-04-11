@@ -180,7 +180,6 @@ EOF;
                 /** Below are from the sites table **/
                 'id' => $site['id'] ?? '', // Site ID
                 'name' => $site['name'] ?? '', // Unique site name
-                'category_id' => $site['category_id'] ?? '', // Site category ID
                 'site_code' => $site['site_code'] ?? '', // Site code
                 'domain' => $site['domain'] ?? '', // Domain
                 'type' => $site['type'] ?? '', // Site type: 1 => website; 2 => shopsite
@@ -195,6 +194,7 @@ EOF;
                 'title' => $site_meta['title'] ?? '', // Title
                 'locale' => $site_meta['locale'] ?? '', // Site language
                 'share_img' => $site_meta['share_img'] ?? '', // Share image
+                'description' => $site_meta['description'] ?? '', // Description
                 /** Below are from the site_member_config table **/
                 'login_email' => $site_member_config['login_email'] ?? '', // Allow members to register/login via email: 1 => Yes; 0 => No
                 'login_mobile' => $site_member_config['login_mobile'] ?? '', // Allow members to register/login via mobile: 1 => Yes; 0 => No
