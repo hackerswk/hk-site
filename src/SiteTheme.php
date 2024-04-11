@@ -53,7 +53,7 @@ EOF;
         $sql = <<<EOF
             SELECT * FROM site_style_setting WHERE site_id = :site_id
 EOF;
-        return $this->executeQuery($sql, ['site_id' => $site_id]);
+        return $this->executeSingleQuery($sql, ['site_id' => $site_id]);
     }
 
     /**
@@ -95,7 +95,7 @@ EOF;
         $sql = <<<EOF
             SELECT * FROM topic_config WHERE id = :topic_id
 EOF;
-        return $this->executeQuery($sql, ['topic_id' => $topic_id]);
+        return $this->executeSingleQuery($sql, ['topic_id' => $topic_id]);
     }
 
     /**
@@ -145,6 +145,24 @@ EOF;
     }
 
     /**
+     * Execute SQL query and fetch a single result.
+     *
+     * @param string $sql SQL query
+     * @param array $params Parameters to bind to the query
+     * @return array|null Single result of the query if found, null otherwise
+     */
+    private function executeSingleQuery($sql, $params = [])
+    {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Confirm if the site theme config profile exists.
      *
      * @param string $site_code The site code.
@@ -188,7 +206,7 @@ EOF;
         $sql = <<<EOF
         SELECT * FROM site_info WHERE site_id = :site_id
 EOF;
-        return $this->executeQuery($sql, ['site_id' => $siteId]);
+        return $this->executeSingleQuery($sql, ['site_id' => $siteId]);
     }
 
     /**
