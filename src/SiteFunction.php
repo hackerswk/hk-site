@@ -91,7 +91,7 @@ class SiteFunction
     public function setSiteFunctionConfig($site_id, $is_public, $path)
     {
         try {
-            $site = new Site();
+            $site = new Site($this->pdo);
             $site_data = $site->getSite($site_id, $is_public);
             $data = array(
                 /*

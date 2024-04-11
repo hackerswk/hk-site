@@ -239,7 +239,7 @@ EOF;
             $topic_config = $this->getTopicConfig($topic_id);
             $topic_page = $this->getTopicPages($topic_id);
             $topic_style = $this->getTopicStyles($topic_id);
-            $site = new Site();
+            $site = new Site($this->pdo);
             $site_data = $site->getSite($site_id, $is_public);
             $site_info = $this->getSiteInfoBySiteId($site_id);
             $site_news = $this->getSiteNewsBySiteId($site_id);
