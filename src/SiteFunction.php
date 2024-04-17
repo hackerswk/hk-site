@@ -50,14 +50,15 @@ class SiteFunction
      * Get site shipping services.
      *
      * @param int $siteId The ID of the site.
+     * @param int $status The status of the services. Default is 1.
      * @return array Array of site shipping services
      */
-    public function getSiteShippingServices($siteId)
+    public function getSiteShippingServices($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_shipping_services WHERE site_id = :site_id
+        SELECT * FROM site_shipping_services WHERE site_id = :site_id AND status = :status
 EOF;
-        $params = array(':site_id' => $siteId);
+        $params = array(':site_id' => $siteId, ':status' => $status);
         return $this->executeQuery($sql, $params);
     }
 
@@ -65,14 +66,15 @@ EOF;
      * Get site payment services.
      *
      * @param int $siteId The ID of the site.
+     * @param int $status The status of the services. Default is 1.
      * @return array Array of site payment services
      */
-    public function getSitePaymentServices($siteId)
+    public function getSitePaymentServices($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_payment_services WHERE site_id = :site_id
+        SELECT * FROM site_payment_services WHERE site_id = :site_id AND status = :status
 EOF;
-        $params = array(':site_id' => $siteId);
+        $params = array(':site_id' => $siteId, ':status' => $status);
         return $this->executeQuery($sql, $params);
     }
 
