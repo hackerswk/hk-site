@@ -187,7 +187,7 @@ EOF;
                 'favicon' => $site['favicon'] ?? '', // Site favicon
                 'verification_code' => $site['verification_code'] ?? '', // Verification code for site ownership (used for Google search engine registration)
                 'is_public' => $site['is_public'] ?? '', // Site publishing status: 0 => unpublished; 1 => published
-                'site_theme' => '', // 待補充資料
+                'theme_id' => $site['theme_id'], 
                 /** Below are from the site_info table **/
                 'site_logo' => isset($site_info['logo']) ? 'https://img.holkee.com/site/store/logo/' . $site['name'] . '/' . $site_info['logo'] : '',
                 /** Below are from the site_meta table **/
