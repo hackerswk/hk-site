@@ -47,6 +47,51 @@ class SiteFunction
     }
 
     /**
+     * Get site shipping services.
+     *
+     * @param int $siteId The ID of the site.
+     * @return array Array of site shipping services
+     */
+    public function getSiteShippingServices($siteId)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_shipping_services WHERE site_id = :site_id
+EOF;
+        $params = array(':site_id' => $siteId);
+        return $this->executeQuery($sql, $params);
+    }
+
+    /**
+     * Get site payment services.
+     *
+     * @param int $siteId The ID of the site.
+     * @return array Array of site payment services
+     */
+    public function getSitePaymentServices($siteId)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_payment_services WHERE site_id = :site_id
+EOF;
+        $params = array(':site_id' => $siteId);
+        return $this->executeQuery($sql, $params);
+    }
+
+    /**
+     * Get site shipping payment relationships.
+     *
+     * @param int $siteId The ID of the site.
+     * @return array Array of site shipping payment relationships
+     */
+    public function getSiteShippingPaymentRelationships($siteId)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_shipping_payment_relationships WHERE site_id = :site_id
+EOF;
+        $params = array(':site_id' => $siteId);
+        return $this->executeQuery($sql, $params);
+    }
+
+    /**
      * Confirm if the site function config profile exists.
      *
      * @param string $site_code The site code.
@@ -91,6 +136,9 @@ class SiteFunction
     public function setSiteFunctionConfig($site_id, $is_public, $path)
     {
         try {
+            $shipping_services = $this->getSiteShippingServices($site_id);
+            $payment_services = $this->getSitePaymentServices($site_id);
+            $shipping_payment_relationships = $this->getSiteShippingPaymentRelationships($site_id);
             $site = new Site($this->pdo);
             $site_data = $site->getSite($site_id, $is_public);
             $data = array(
@@ -100,15 +148,20 @@ class SiteFunction
                 |--------------------------------------------------------------------------
                 | 此設定檔目前由 sites 整合而成
                 |
-                */
+                 */
                 /**以下來自 sites table**/
                 'set_fbe' => $site_data['set_fbe'] ?? '',
                 'set_cs_btn' => $site_data['set_cs_btn'] ?? '',
                 'set_g_search' => $site_data['set_g_search'] ?? '',
                 'set_tracking_code' => $site_data['set_tracking_code'] ?? '',
-                /** 持續新增..... **/ 
+                /**以下來自 site_shipping_services table**/
+                'shipping_services' => $shipping_services ?? [], // 網站物流服務
+                /**以下來自 site_payment_services table**/
+                'payment_services' => $payment_services ?? [], // 網站金流服務
+                /**以下來自 site_shipping_payment_relationships table**/
+                'shipping_payment_relationships' => $shipping_payment_relationships ?? [], // 網站物流與金流服務關聯
             );
-            
+
             $config_file = $path . '/' . $site_data['site_code'] . '-function.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
