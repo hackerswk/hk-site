@@ -50,14 +50,15 @@ class SitePromotionActivitiesReader
      * Get site promotion activities.
      *
      * @param int $siteId The ID of the site.
+     * @param int $status The status of the activities. Default is 1.
      * @return array Array of site promotion activities with associated conditions
      */
-    public function getSitePromotionActivities($siteId)
+    public function getSitePromotionActivities($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_promotion_activities WHERE site_id = :site_id
+        SELECT * FROM site_promotion_activities WHERE site_id = :site_id AND status = :status
 EOF;
-        $params = array(':site_id' => $siteId);
+        $params = array(':site_id' => $siteId, ':status' => $status);
         $activities = $this->executeQuery($sql, $params);
 
         // Fetch associated conditions for each activity and add them to the activities array
@@ -89,14 +90,15 @@ EOF;
      * Get site promotion coupons.
      *
      * @param int $siteId The ID of the site.
+     * @param int $status The status of the coupons. Default is 1.
      * @return array Array of site promotion coupons
      */
-    public function getSitePromotionCoupons($siteId)
+    public function getSitePromotionCoupons($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_promotion_coupons WHERE site_id = :site_id
+        SELECT * FROM site_promotion_coupons WHERE site_id = :site_id AND status = :status
 EOF;
-        $params = array(':site_id' => $siteId);
+        $params = array(':site_id' => $siteId, ':status' => $status);
         return $this->executeQuery($sql, $params);
     }
 
