@@ -13,7 +13,7 @@ use \Exception;
 use \PDO;
 use \PDOException;
 
-class SitePromotionActivitiesReader
+class SitePromotion
 {
     /** @var PDO Database connection */
     private $pdo;
