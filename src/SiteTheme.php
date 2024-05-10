@@ -238,6 +238,20 @@ EOF;
     }
 
     /**
+     * Get site rule settings from the database.
+     *
+     * @param int $site_id The site ID to use as a query condition
+     * @return array Array of site rule settings
+     */
+    public function getSiteRule($site_id)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_rule WHERE site_id = :site_id
+EOF;
+        return $this->executeSingleQuery($sql, ['site_id' => $site_id]);
+    }
+
+    /**
      * Set site theme configuration based on site and topic IDs.
      *
      * @param int $site_id The ID of the site.
@@ -262,6 +276,7 @@ EOF;
             $site_info = $this->getSiteInfoBySiteId($site_id);
             $site_news = $this->getSiteNewsBySiteId($site_id);
             $site_services = $this->getSiteServicesBySiteId($site_id);
+            $site_rule = $this->getSiteRule($site_id);
             $data = array(
                 /*
                 |--------------------------------------------------------------------------
@@ -368,6 +383,14 @@ EOF;
                 |
                  */
                 'site_news' => $site_news ?? [],
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_rule Table
+                |--------------------------------------------------------------------------
+                |
+                 */
+                'site_rule' => $site_rule ?? [],
             );
 
             $config_file = $path . '/' . $site_data['site_code'] . '-theme.php';
