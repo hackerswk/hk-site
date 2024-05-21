@@ -9,6 +9,8 @@
  * @version     Release: 1.0
  */
 
+namespace Stanleysie\HkSite;
+
 class URLValidator
 {
     /**
