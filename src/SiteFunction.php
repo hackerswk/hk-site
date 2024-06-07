@@ -102,7 +102,7 @@ EOF;
      */
     public function checkSiteFunctionConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '-function.php';
+        $config_file = $path . '/site-function.php';
         if (file_exists($config_file)) {
             return true;
         }
@@ -118,7 +118,7 @@ EOF;
      */
     public function getSiteFunctionConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '-function.php';
+        $config_file = $path . '/site-function.php';
         if (file_exists($config_file)) {
             $configHandler = new PhpConfigHandler($config_file);
             return $configHandler->readConfig();
@@ -164,7 +164,7 @@ EOF;
                 'shipping_payment_relationships' => $shipping_payment_relationships ?? [], // 網站物流與金流服務關聯
             );
 
-            $config_file = $path . '/' . $site_data['site_code'] . '-function.php';
+            $config_file = $path . '/site-function.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
                 return true;

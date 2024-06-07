@@ -136,7 +136,7 @@ EOF;
      */
     public function checkSiteConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '.php';
+        $config_file = $path . '/site-config.php';
         if (file_exists($config_file)) {
             return true;
         }
@@ -152,7 +152,7 @@ EOF;
      */
     public function getSiteConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '.php';
+        $config_file = $path . '/site-config.php';
         if (file_exists($config_file)) {
             $configHandler = new PhpConfigHandler($config_file);
             return $configHandler->readConfig();
@@ -204,7 +204,7 @@ EOF;
                 'login_google' => $site_member_config['login_google'] ?? '', // Allow members to register/login via Google: 1 => Yes; 0 => No
             );
 
-            $config_file = $path . '/' . $data['site_code'] . '.php';
+            $config_file = $path . '/site-config.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
                 return true;

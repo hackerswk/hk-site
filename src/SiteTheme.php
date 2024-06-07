@@ -171,7 +171,7 @@ EOF;
      */
     public function checkSiteThemeConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '-theme.php';
+        $config_file = $path . '/site-theme.php';
         if (file_exists($config_file)) {
             return true;
         }
@@ -187,7 +187,7 @@ EOF;
      */
     public function getSiteThemeConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '-theme.php';
+        $config_file = $path . '/site-theme.php';
         if (file_exists($config_file)) {
             $configHandler = new PhpConfigHandler($config_file);
             return $configHandler->readConfig();
@@ -393,7 +393,7 @@ EOF;
                 'site_rule' => $site_rule ?? [],
             );
 
-            $config_file = $path . '/' . $site_data['site_code'] . '-theme.php';
+            $config_file = $path . '/site-theme.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
                 return true;

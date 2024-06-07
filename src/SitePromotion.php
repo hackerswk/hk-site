@@ -111,7 +111,7 @@ EOF;
      */
     public function checkSitePromotionConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '-promotion.php';
+        $config_file = $path . '/site-promotion.php';
         if (file_exists($config_file)) {
             return true;
         }
@@ -127,7 +127,7 @@ EOF;
      */
     public function getSitePromotionConfig($site_code, $path)
     {
-        $config_file = $path . '/' . $site_code . '-promotion.php';
+        $config_file = $path . '/site-promotion.php';
         if (file_exists($config_file)) {
             $configHandler = new PhpConfigHandler($config_file);
             return $configHandler->readConfig();
@@ -167,7 +167,7 @@ EOF;
                 /** 持續新增..... **/
             );
 
-            $config_file = $path . '/' . $site_data['site_code'] . '-promotion.php';
+            $config_file = $path . '/site-promotion.php';
             $configHandler = new PhpConfigHandler($config_file);
             if ($configHandler->generateConfig($data)) {
                 return true;
