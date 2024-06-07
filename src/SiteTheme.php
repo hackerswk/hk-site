@@ -71,6 +71,20 @@ EOF;
     }
 
     /**
+     * Get site carousel from the database.
+     *
+     * @param int $site_id The site ID to use as a query condition
+     * @return array Array of site carousel items
+     */
+    public function getSiteCarousel($site_id)
+    {
+        $sql = <<<EOF
+        SELECT * FROM site_carousel WHERE site_id = :site_id
+EOF;
+        return $this->executeQuery($sql, ['site_id' => $site_id]);
+    }
+
+    /**
      * Get topic blocks from the database.
      *
      * @param int $topic_id The topic ID to use as a query condition
@@ -267,6 +281,7 @@ EOF;
             $site_block_setting = $this->getSiteBlockSettings($site_id);
             $site_style_setting = $this->getSiteStyleSettings($site_id);
             $site_tool = $this->getSiteTools($site_id);
+            $site_carousel = $this->getSiteCarousel($site_id);
             $topic_block = $this->getTopicBlocks($topic_id);
             $topic_config = $this->getTopicConfig($topic_id);
             $topic_page = $this->getTopicPages($topic_id);
@@ -297,6 +312,15 @@ EOF;
                 'color' => $site_style_setting['color'] ?? '',
                 'header' => $site_style_setting['header'] ?? '',
                 'footer' => $site_style_setting['footer'] ?? '',
+                'home' => $site_style_setting['home_page'] ?? '',
+
+                /*
+                |--------------------------------------------------------------------------
+                | site_tool Table
+                |-----------------------------------------------------------78G---------------
+                |
+                 */
+                'site_tool' => $site_tool ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
@@ -304,7 +328,7 @@ EOF;
                 |--------------------------------------------------------------------------
                 |
                  */
-                'site_tool' => $site_tool ?? [],
+                'site_carousel' => $site_carousel ?? [],
 
                 /*
                 |--------------------------------------------------------------------------
