@@ -49,18 +49,17 @@ class SiteLookup
     /**
      * Confirm if the site lookup profile exists.
      *
-     * @param string $site_code The site code or domain.
      * @param string $path The path to the directory containing the config files.
      * @param int $is_domain Flag indicating if the site is represented by a domain.
      * @return bool True if the config file exists, false otherwise.
      */
-    public function checkSiteLookup($site_code, $path, $is_domain = 0)
+    public function checkSiteLookup($path, $is_domain = 0)
     {
         $config_file = $path . '/';
         if ($is_domain == 1) {
-            $config_file .= hash('sha256', $site_code) . '-lookup.php';
+            $config_file .= 'domain-lookup.php';
         } else {
-            $config_file .= $site_code . '-lookup.php';
+            $config_file .= 'site-lookup.php';
         }
         if (file_exists($config_file)) {
             return true;
@@ -71,18 +70,17 @@ class SiteLookup
     /**
      * Get site lookup.
      *
-     * @param string $site_code The site code or domain.
      * @param string $path The path to the directory containing the config files.
      * @param int $is_domain Flag indicating if the site is represented by a domain.
      * @return array The site theme configuration as an associative array.
      */
-    public function getSiteLookup($site_code, $path, $is_domain = 0)
+    public function getSiteLookup($path, $is_domain = 0)
     {
         $config_file = $path . '/';
         if ($is_domain == 1) {
-            $config_file .= hash('sha256', $site_code) . '-lookup.php';
+            $config_file .= 'domain-lookup.php';
         } else {
-            $config_file .= $site_code . '-lookup.php';
+            $config_file .= 'site-lookup.php';
         }
         if (file_exists($config_file)) {
             $configHandler = new PhpConfigHandler($config_file);
@@ -92,11 +90,38 @@ class SiteLookup
     }
 
     /**
+     * Check if site_id exists in site-lookup.php.
+     *
+     * @param int $site_id The ID of the site to check.
+     * @param string $path The path to the directory containing the config files.
+     * @return bool True if the site_id exists, false otherwise.
+     */
+    public function isSiteIdInSiteLookup($site_id, $path)
+    {
+        $site_lookup = $this->getSiteLookup($path, 0); // 0 indicates site-lookup.php
+        return isset($site_lookup[$site_id]);
+    }
+
+    /**
+     * Check if site_id exists in domain-lookup.php.
+     *
+     * @param int $site_id The ID of the site to check.
+     * @param string $path The path to the directory containing the config files.
+     * @return bool True if the site_id exists, false otherwise.
+     */
+    public function isSiteIdInDomainLookup($site_id, $path)
+    {
+        $domain_lookup = $this->getSiteLookup($path, 1); // 1 indicates domain-lookup.php
+        return isset($domain_lookup[$site_id]);
+    }
+
+    /**
      * Set site lookup configuration based on site id.
      *
      * @param int $site_id The ID of the site.
      * @param bool $is_public Flag indicating if the site is public.
      * @param string $path The path to store the theme configuration file.
+     * @param int $is_domain Flag indicating if the site is represented by a domain.
      * @return bool True if the configuration is successfully generated, false otherwise.
      * @throws Exception When an error occurs during configuration generation.
      */
@@ -105,24 +130,44 @@ class SiteLookup
         try {
             $site = new Site($this->pdo);
             $site_data = $site->getSite($site_id, $is_public);
-            $data = array(
+            $data = [
+                'site_id' => $site_id,
                 'site_code' => $site_data['site_code'] ?? '',
                 'domain' => $site_data['domain'] ?? '',
                 'file_path' => $site_data['file_path'] ?? '',
-            );
+            ];
 
-            $config_file = $path . '/' . $site_data['site_code'] . '-lookup.php';
-            if ($is_domain == 1) {
-                $config_file = $path . '/' . hash('sha256', $site_data['domain']) . '-lookup.php';
-            }
-
+            $config_file = $this->getConfigFilePath($path, $is_domain);
             $configHandler = new PhpConfigHandler($config_file);
-            if ($configHandler->generateConfig($data)) {
+
+            // Read existing configuration
+            $existingConfig = file_exists($config_file) ? $configHandler->readConfig() : [];
+
+            // Add or update the site configuration
+            $existingConfig[$site_id] = $data;
+
+            // Write the updated configuration
+            if ($configHandler->generateConfig($existingConfig)) {
                 return true;
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
         return false;
+    }
+
+    /**
+     * Get the configuration file path.
+     *
+     * @param string $path The base path to the directory containing the config files.
+     * @param int $is_domain Flag indicating if the site is represented by a domain.
+     * @return string The full path to the configuration file.
+     */
+    private function getConfigFilePath($path, $is_domain)
+    {
+        if ($is_domain == 1) {
+            return $path . '/domain-lookup.php';
+        }
+        return $path . '/site-lookup.php';
     }
 }
