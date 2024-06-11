@@ -184,7 +184,7 @@ class SiteLookup
                 if ($is_domain) {
                     // If is_domain is true, use the domain as the key
                     $data[$site_data['domain']] = [
-                        'site_id' => $site_data['site_id'],
+                        'site_id' => $site_data['id'],
                         'site_code' => $site_data['site_code'],
                         'domain' => $site_data['domain'],
                         'file_path' => $site_data['file_path'],
@@ -192,7 +192,7 @@ class SiteLookup
                 } else {
                     // If is_domain is false, use the site_code as the key
                     $data[$site_data['site_code']] = [
-                        'site_id' => $site_data['site_id'],
+                        'site_id' => $site_data['id'],
                         'site_code' => $site_data['site_code'],
                         'domain' => $site_data['domain'],
                         'file_path' => $site_data['file_path'],
