@@ -214,4 +214,21 @@ EOF;
         }
         return false;
     }
+
+    /**
+     * Get all public and non-deleted sites.
+     *
+     * @return array An array of public and non-deleted sites.
+     */
+    public function getPublicSites()
+    {
+        $sql = <<<EOF
+            SELECT * FROM sites
+            WHERE is_deleted = 0 AND is_public = 1
+EOF;
+        $query = $this->database->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
