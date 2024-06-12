@@ -189,6 +189,8 @@ EOF;
                 'is_public' => $site['is_public'] ?? '', // Site publishing status: 0 => unpublished; 1 => published
                 'theme_id' => $site['theme_id'], 
                 'category_id' => $site['category_id'], 
+                'cname' => $site['cname'], 
+                'cvalue' => $site['cvalue'], 
                 /** Below are from the site_info table **/
                 'site_logo' => isset($site_info['logo']) ? 'https://img.holkee.com/site/store/logo/' . $site['name'] . '/' . $site_info['logo'] : '',
                 /** Below are from the site_meta table **/
