@@ -260,7 +260,10 @@ EOF;
     public function getSiteRule($site_id)
     {
         $sql = <<<EOF
-        SELECT * FROM site_rule WHERE site_id = :site_id
+            SELECT * FROM site_rule
+            WHERE site_id = :site_id
+            AND deleted_at IS NULL
+            ORDER BY id DESC
 EOF;
         return $this->executeSingleQuery($sql, ['site_id' => $site_id]);
     }
