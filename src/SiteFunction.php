@@ -47,6 +47,24 @@ class SiteFunction
     }
 
     /**
+     * Execute SQL query and fetch a single result.
+     *
+     * @param string $sql SQL query
+     * @param array $params Parameters to bind to the query
+     * @return array|null Single result of the query if found, null otherwise
+     */
+    private function executeSingleQuery($sql, $params = [])
+    {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Get site shipping services.
      *
      * @param int $siteId The ID of the site.
@@ -127,6 +145,21 @@ EOF;
     }
 
     /**
+     * Get site marketing tracker data.
+     *
+     * @param int $siteId The ID of the site.
+     * @return array Array of site marketing tracker data
+     */
+    public function getSiteMktTracker($siteId)
+    {
+        $sql = <<<EOF
+            SELECT * FROM site_mkt_tracker WHERE site_id = :site_id
+EOF;
+        $params = array(':site_id' => $siteId);
+        return $this->executeSingleQuery($sql, $params);
+    }
+
+    /**
      * Set site function configuration based on site id.
      *
      * @param int $site_id The ID of the site.
@@ -143,6 +176,7 @@ EOF;
             $shipping_payment_relationships = $this->getSiteShippingPaymentRelationships($site_id);
             $site = new Site($this->pdo);
             $site_data = $site->getSite($site_id, $is_public);
+            $site_tracking_data = $this->getSiteMktTracker($site_id);
             $data = array(
                 /*
                 |--------------------------------------------------------------------------
@@ -154,6 +188,15 @@ EOF;
                 /**以下來自 sites table**/
                 'set_fbe' => $site_data['set_fbe'] ?? '',
                 'set_g_search' => $site_data['set_g_search'] ?? '',
+                /**以下來自 site_mkt_tracker table**/
+                'tracking_code' => [
+                    'gtm_code' => $site_tracking_data['gtm_code'] ?? '',
+                    'ga4_id' => $site_tracking_data['ga4_id'] ?? '',
+                    'meta_pixel_id' => $site_tracking_data['meta_pixel_id'] ?? '',
+                    'meta_conversion' => $site_tracking_data['meta_conversion'] ?? '',
+                    'dot_code_project_id' => $site_tracking_data['dot_code_project_id'] ?? '',
+                    'dot_code_pixel_id' => $site_tracking_data['dot_pixel_id'] ?? '',
+                ],
                 'set_tracking_code' => $site_data['set_tracking_code'] ?? '',
                 /**以下來自 site_shipping_services table**/
                 'shipping_services' => $shipping_services ?? [], // 網站物流服務
