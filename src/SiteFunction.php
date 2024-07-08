@@ -153,7 +153,6 @@ EOF;
                  */
                 /**以下來自 sites table**/
                 'set_fbe' => $site_data['set_fbe'] ?? '',
-                'set_cs_btn' => $site_data['set_cs_btn'] ?? '',
                 'set_g_search' => $site_data['set_g_search'] ?? '',
                 'set_tracking_code' => $site_data['set_tracking_code'] ?? '',
                 /**以下來自 site_shipping_services table**/
