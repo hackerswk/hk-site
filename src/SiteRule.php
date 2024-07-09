@@ -38,9 +38,12 @@ class SiteRule
     public function getSiteRules($site_id)
     {
         $sql = <<<EOF
-        SELECT * FROM site_rule WHERE site_id = :site_id
+        SELECT * FROM site_rule
+        WHERE site_id = :site_id
+        ORDER BY id DESC
+        LIMIT 1
 EOF;
-        return $this->executeQuery($sql, ['site_id' => $site_id]);
+        return $this->executeSingleQuery($sql, ['site_id' => $site_id]);
     }
 
     /**
