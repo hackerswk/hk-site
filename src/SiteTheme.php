@@ -57,6 +57,20 @@ EOF;
     }
 
     /**
+     * Get topic config from the database.
+     *
+     * @param int $topic_id The topic ID to use as a query condition
+     * @return array Array of topic config
+     */
+    public function getTopicConfig($topic_id)
+    {
+        $sql = <<<EOF
+        SELECT * FROM topic_config WHERE id = :topic_id
+EOF;
+        return $this->executeSingleQuery($sql, ['topic_id' => $topic_id]);
+    }
+
+    /**
      * Execute SQL query and fetch results.
      *
      * @param string $sql SQL query
@@ -140,6 +154,8 @@ EOF;
         try {
             $site_block_setting = $this->getSiteBlockSettings($site_id);
             $site_style_setting = $this->getSiteStyleSettings($site_id);
+            $topic_config = $this->getTopicConfig($topic_id);
+
             $data = array(
                 /*
                 |--------------------------------------------------------------------------
@@ -160,6 +176,14 @@ EOF;
                 'header' => $site_style_setting['header'] ?? '',
                 'footer' => $site_style_setting['footer'] ?? '',
                 'home' => $site_style_setting['home_page'] ?? '',
+                /*
+                |--------------------------------------------------------------------------
+                | topic_config Table
+                |--------------------------------------------------------------------------
+                |
+                 */
+                'topic_type' => $topic_config['topic_type'] ?? '',
+                'site_type' => $topic_config['site_type'] ?? '',
             );
 
             $config_file = $path . '/site-theme.php';
@@ -172,5 +196,4 @@ EOF;
         }
         return false;
     }
-
 }
