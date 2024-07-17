@@ -234,4 +234,36 @@ EOF;
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Checks and adjusts the amount based on the currency's minimum unit
+     *
+     * @param float $amount The amount of money
+     * @param string $currency The currency code
+     * @return float The adjusted amount
+     * @throws InvalidArgumentException If the parameters are missing or invalid
+     */
+    public function currencyCheck($amount, $currency)
+    {
+        if (!isset($amount) || !is_numeric($amount)) {
+            throw new InvalidArgumentException('Invalid amount parameter');
+        }
+        if (!isset($currency) || empty($currency)) {
+            throw new InvalidArgumentException('Invalid currency parameter');
+        }
+
+        $config_file = storage_path(env('SITEDATA_FOLDER') . '/currencyMinUnit.php');
+        $configHandler = new PhpConfigHandler($config_file);
+        $config = $configHandler->readConfig();
+
+        if (!isset($config[$currency])) {
+            throw new InvalidArgumentException('Currency configuration not found');
+        }
+
+        $powParam = $config[$currency];
+        $pow = pow(10, $powParam);
+        $amount = ceil($amount / $pow) * $pow;
+
+        return $amount;
+    }
 }
