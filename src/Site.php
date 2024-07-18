@@ -10,6 +10,7 @@
 namespace Stanleysie\HkSite;
 
 use \Exception as Exception;
+use \InvalidArgumentException as InvalidArgumentException;
 use \PDO as PDO;
 
 class Site
