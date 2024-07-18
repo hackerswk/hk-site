@@ -240,10 +240,11 @@ EOF;
      *
      * @param float $amount The amount of money
      * @param string $currency The currency code
+     * @param string $configFile The path to the configuration file
      * @return float The adjusted amount
      * @throws InvalidArgumentException If the parameters are missing or invalid
      */
-    public function currencyCheck($amount, $currency)
+    public function currencyCheck($amount, $currency, $configFile)
     {
         if (!isset($amount) || !is_numeric($amount)) {
             throw new InvalidArgumentException('Invalid amount parameter');
@@ -251,9 +252,11 @@ EOF;
         if (!isset($currency) || empty($currency)) {
             throw new InvalidArgumentException('Invalid currency parameter');
         }
+        if (!isset($configFile) || empty($configFile)) {
+            throw new InvalidArgumentException('Invalid configuration file path');
+        }
 
-        $config_file = storage_path(env('SITEDATA_FOLDER') . '/currencyMinUnit.php');
-        $configHandler = new PhpConfigHandler($config_file);
+        $configHandler = new PhpConfigHandler($configFile);
         $config = $configHandler->readConfig();
 
         if (!isset($config[$currency])) {
