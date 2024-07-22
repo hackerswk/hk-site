@@ -177,6 +177,8 @@ EOF;
             $site = new Site($this->pdo);
             $site_data = $site->getSite($site_id, $is_public);
             $site_tracking_data = $this->getSiteMktTracker($site_id);
+            $mod_ecommerce = $this->getSiteProService($site_id, 9);
+            $mod_inquiry = $this->getSiteProService($site_id, 10);
             $data = array(
                 /*
                 |--------------------------------------------------------------------------
@@ -204,6 +206,8 @@ EOF;
                 'payment_services' => $payment_services ?? [], // 網站金流服務
                 /**以下來自 site_shipping_payment_relationships table**/
                 'shipping_payment_relationships' => $shipping_payment_relationships ?? [], // 網站物流與金流服務關聯
+                'mod_ecommerce' => (!$mod_ecommerce) ? 0 : 1, // 電商模組
+                'mod_inquiry' => (!$mod_inquiry) ? 0 : 1, // 詢價模組
             );
 
             $config_file = $path . '/site-function.php';
@@ -215,5 +219,24 @@ EOF;
             throw new Exception($e->getMessage());
         }
         return false;
+    }
+
+    /**
+     * Retrieves the site pro service record based on site ID and service ID.
+     *
+     * @param int $site_id The ID of the site.
+     * @param int $service_id The ID of the service.
+     * @return array|false The site pro service record as an associative array, or false if no record is found.
+     */
+    private function getSiteProService($site_id, $service_id)
+    {
+        $sql = <<<EOF
+            SELECT * FROM site_pro_services WHERE site_id = $site_id AND service_id = $service_id
+            AND is_terminated = 0
+EOF;
+        // Execute the query and fetch the result
+        $query = $this->pdo->query($sql); // Assuming $this->db is a PDO instance
+        $record = $query->fetch(PDO::FETCH_ASSOC);
+        return $record;
     }
 }
