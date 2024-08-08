@@ -230,7 +230,7 @@ EOF;
     {
         $sql = <<<EOF
             SELECT * FROM sites
-            WHERE is_deleted = 0 AND is_public = 1
+            WHERE is_deleted = 0
 EOF;
         $query = $this->database->prepare($sql);
         $query->execute();
