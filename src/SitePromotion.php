@@ -96,7 +96,7 @@ EOF;
     public function getSitePromotionCoupons($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_promotion_coupons WHERE site_id = :site_id AND status = :status
+        SELECT * FROM site_promotion_coupons WHERE site_id = :site_id AND status = :status AND deleted_at IS NULL
 EOF;
         $params = array(':site_id' => $siteId, ':status' => $status);
         return $this->executeQuery($sql, $params);
