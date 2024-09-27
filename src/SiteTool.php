@@ -38,7 +38,7 @@ class SiteTool
     public function getSiteTools($site_id)
     {
         $sql = <<<EOF
-        SELECT * FROM site_tool WHERE site_id = :site_id
+        SELECT * FROM site_tool WHERE site_id = :site_id AND deleted_at IS NULL
 EOF;
         return $this->executeQuery($sql, ['site_id' => $site_id]);
     }

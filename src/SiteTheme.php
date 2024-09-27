@@ -37,7 +37,7 @@ class SiteTheme
     public function getSiteBlockSettings($site_id)
     {
         $sql = <<<EOF
-        SELECT * FROM site_block_setting WHERE site_id = :site_id
+        SELECT * FROM site_block_setting WHERE site_id = :site_id AND deleted_at IS NULL
 EOF;
         return $this->executeQuery($sql, ['site_id' => $site_id]);
     }
@@ -51,7 +51,7 @@ EOF;
     public function getSiteStyleSettings($site_id)
     {
         $sql = <<<EOF
-            SELECT * FROM site_style_setting WHERE site_id = :site_id
+            SELECT * FROM site_style_setting WHERE site_id = :site_id AND deleted_at IS NULL
 EOF;
         return $this->executeSingleQuery($sql, ['site_id' => $site_id]);
     }
@@ -65,7 +65,7 @@ EOF;
     public function getTopicConfig($topic_id)
     {
         $sql = <<<EOF
-        SELECT * FROM topic_config WHERE id = :topic_id
+        SELECT * FROM topic_config WHERE id = :topic_id AND deleted_at IS NULL
 EOF;
         return $this->executeSingleQuery($sql, ['topic_id' => $topic_id]);
     }
