@@ -174,9 +174,16 @@ EOF;
     {
         try {
             $site = $this->getSite($site_id, $is_public);
+
+            // Check if $site is empty or null
+            if (empty($site)) {
+                return false; // Return false if $site has no data
+            }
+
             $site_member_config = $this->getSiteMemberConfig($site_id);
             $site_meta = $this->getSiteMeta($site_id);
             $site_info = $this->getSiteInfo($site_id);
+
             $data = array(
                 /** Below are from the sites table **/
                 'id' => $site['id'] ?? '', // Site ID
@@ -186,7 +193,7 @@ EOF;
                 'type' => $site['type'] ?? '', // Site type: 1 => website; 2 => shopsite
                 'file_path' => $site['file_path'] ?? '', // Site file path
                 'favicon' => $site['favicon'] ?? '', // Site favicon
-                'verification_code' => $site['verification_code'] ?? '', // Verification code for site ownership (used for Google search engine registration)
+                'verification_code' => $site['verification_code'] ?? '', // Verification code for site ownership
                 'is_public' => $site['is_public'] ?? '', // Site publishing status: 0 => unpublished; 1 => published
                 'theme_id' => $site['theme_id'],
                 'category_id' => $site['category_id'],
