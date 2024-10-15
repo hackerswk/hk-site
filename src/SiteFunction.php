@@ -74,7 +74,7 @@ class SiteFunction
     public function getSiteShippingServices($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_shipping_services WHERE site_id = :site_id AND status = :status
+        SELECT * FROM site_shipping_services WHERE site_id = :site_id AND status = :status AND deleted_at IS NULL
 EOF;
         $params = array(':site_id' => $siteId, ':status' => $status);
         return $this->executeQuery($sql, $params);
@@ -90,7 +90,7 @@ EOF;
     public function getSitePaymentServices($siteId, $status = 1)
     {
         $sql = <<<EOF
-        SELECT * FROM site_payment_services WHERE site_id = :site_id AND status = :status
+        SELECT * FROM site_payment_services WHERE site_id = :site_id AND status = :status AND deleted_at IS NULL
 EOF;
         $params = array(':site_id' => $siteId, ':status' => $status);
         return $this->executeQuery($sql, $params);
@@ -232,7 +232,7 @@ EOF;
     {
         $sql = <<<EOF
             SELECT * FROM site_pro_services WHERE site_id = $site_id AND service_id = $service_id
-            AND is_terminated = 0
+            AND is_terminated = 0 AND deleted_at IS NULL
 EOF;
         // Execute the query and fetch the result
         $query = $this->pdo->query($sql); // Assuming $this->db is a PDO instance

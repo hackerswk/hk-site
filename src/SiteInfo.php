@@ -38,7 +38,7 @@ class SiteInfo
     public function getSiteInfoBySiteId($site_id)
     {
         $sql = <<<EOF
-        SELECT * FROM site_info WHERE site_id = :site_id
+        SELECT * FROM site_info WHERE site_id = :site_id AND deleted_at IS NULL
 EOF;
         return $this->executeSingleQuery($sql, ['site_id' => $site_id]);
     }

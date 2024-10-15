@@ -39,7 +39,7 @@ class SiteRule
     {
         $sql = <<<EOF
         SELECT * FROM site_rule
-        WHERE site_id = :site_id
+        WHERE site_id = :site_id AND deleted_at IS NULL
         ORDER BY id DESC
         LIMIT 1
 EOF;

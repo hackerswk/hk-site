@@ -38,7 +38,7 @@ class SiteService
     public function getSiteServices($site_id)
     {
         $sql = <<<EOF
-        SELECT * FROM site_service WHERE site_id = :site_id
+        SELECT * FROM site_service WHERE site_id = :site_id AND deleted_at IS NULL
 EOF;
         return $this->executeQuery($sql, ['site_id' => $site_id]);
     }
