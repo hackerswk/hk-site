@@ -202,6 +202,7 @@ EOF;
                 'timezone' => $site['timezone'] ?? 'Asia/Taipei', // Timezone
                 'is_ampsite' => $site['is_ampsite'],
                 'is_ministore' => $site['is_ministore'],
+                'tags' => $site['tags'] ?? '', // Site tags
                 /** Below are from the site_info table **/
                 'site_logo' => isset($site_info['logo']) ? 'https://img.holkee.com/site/store/logo/' . $site['name'] . '/' . $site_info['logo'] : '',
                 /** Below are from the site_meta table **/
