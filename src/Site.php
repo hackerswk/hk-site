@@ -202,7 +202,6 @@ EOF;
                 'timezone' => $site['timezone'] ?? 'Asia/Taipei', // Timezone
                 'is_ampsite' => $site['is_ampsite'],
                 'is_ministore' => $site['is_ministore'],
-                'tags' => $site['tags'] ?? '', // Site tags
                 /** Below are from the site_info table **/
                 'site_logo' => isset($site_info['logo']) ? 'https://img.holkee.com/site/store/logo/' . $site['name'] . '/' . $site_info['logo'] : '',
                 /** Below are from the site_meta table **/
@@ -210,6 +209,7 @@ EOF;
                 'locale' => $site_meta['locale'] ?? '', // Site language
                 'share_img' => $site_meta['share_img'] ?? '', // Share image
                 'description' => $site_meta['description'] ?? '', // Description
+                'tags' => $site_meta['tags'] ?? '', // Site tags
                 /** Below are from the site_member_config table **/
                 'login_email' => $site_member_config['login_email'] ?? '', // Allow members to register/login via email: 1 => Yes; 0 => No
                 'login_mobile' => $site_member_config['login_mobile'] ?? '', // Allow members to register/login via mobile: 1 => Yes; 0 => No
