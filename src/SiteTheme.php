@@ -137,9 +137,9 @@ EOF;
                     }
                     if ($col['name'] == 'feature_product') {
                         $sql_feature = <<<EOF
-                        SELECT * FROM site_feature_setting where site_id = :site_id and block_id = :block_id;
+                        SELECT * FROM site_feature_setting where site_id = :site_id ;
 EOF;
-                        $temp_feature = $this->executeQuery($sql_feature, ['site_id' => $site_id, 'block_id' => $col['id']]);
+                        $temp_feature = $this->executeQuery($sql_feature, ['site_id' => $site_id]);
                         $site_block_setting[$row['base_path']][$col['sort']]['feature_type'] = $temp_feature['feature_type'] ?? 'latest';
                         $site_block_setting[$row['base_path']][$col['sort']]['main_class'] = $temp_feature['main_class'] ?? 0;
                         $site_block_setting[$row['base_path']][$col['sort']]['sub_class'] = $temp_feature['sub_class'] ?? 0;
