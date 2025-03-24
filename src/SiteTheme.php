@@ -120,7 +120,7 @@ EOF;
             WHERE site_page_id = :page_block_id AND parent_id IS NULL AND deleted_at IS NULL
 EOF;
             $temp = $this->executeQuery($sql, ['page_block_id' => $row['id']]);
-            if (!isset($temp)) {
+            if (empty($temp)) {
                 continue;
             }
             foreach ($temp as $col) {
@@ -148,6 +148,11 @@ EOF;
                 }
 
             }
+
+            if (empty($site_block_setting[$row['base_path']])) {
+                continue;
+            }
+
             if (is_array($site_block_setting[$row['base_path']])) {
                 ksort($site_block_setting[$row['base_path']]);
             }
