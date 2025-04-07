@@ -203,7 +203,7 @@ EOF;
                 'is_ampsite' => $site['is_ampsite'],
                 'is_ministore' => $site['is_ministore'],
                 /** Below are from the site_info table **/
-                'site_logo' => isset($site_info['logo']) ? 'https://img.holkee.com/site/store/logo/' . $site['name'] . '/' . $site_info['logo'] : '',
+                'site_logo' => $site_info['logo'] ?? '',
                 /** Below are from the site_meta table **/
                 'title' => $site_meta['title'] ?? '', // Title
                 'locale' => $site_meta['locale'] ?? '', // Site language
